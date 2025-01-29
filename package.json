@@ -1,0 +1,24 @@
+{
+  "name": "hello-serverless-netlify-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekafyi/hello-serverless-netlify-functions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekafyi/hello-serverless-netlify-functions/issues"
+  },
+  "homepage": "https://github.com/ekafyi/hello-serverless-netlify-functions#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.11.0"
+  }
+}
