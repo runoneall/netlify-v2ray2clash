@@ -1,5 +1,3 @@
-[[redirects]]
-  from = "*"
-  to = "https://r1a.rr.nu/:splat"
-  status = 200
-  force = true
+[build]
+  command = "#"
+  functions = "functions/"
