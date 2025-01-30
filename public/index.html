@@ -35,9 +35,9 @@
     </style>
     <body>
         <h1>Convert V2ray Links to Clash Config</h1>
-        <textarea id="v2ray-links" placeholder="Paste your V2ray links here..." wrap="off"></textarea>
+        <textarea id="v2ray-links" wrap="off" placeholder="Paste your V2ray links here..."></textarea>
         <button id="convert-btn">Convert</button>
-        <textarea id="clash-config" wrap="off" readonly></textarea>
+        <textarea id="clash-config" wrap="off" placeholder="Converted Clash Config will be displayed here..." readonly></textarea>
     </body>
     <script>
         const v2rayLinks = document.getElementById("v2ray-links");
@@ -54,7 +54,6 @@
         }
         convertBtn.addEventListener("click", () => {
             convertBtn.textContent = "Converting...";
-            convertBtn.disabled = true;
             const apiUrl = getApiUrl();
             const v2rayLinksText = v2rayLinks.value;
             fetch(apiUrl, {
@@ -73,7 +72,6 @@
             }) .catch(error => {
                 clashConfig.value = "Error: " + error;
             }) .finally(() => {
-                convertBtn.disabled = false;
                 convertBtn.textContent = "Convert";
             });
         });
