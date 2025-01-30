@@ -36,7 +36,10 @@
     <body>
         <h1>Convert V2ray Links to Clash Config</h1>
         <textarea id="v2ray-links" wrap="off" placeholder="Paste your V2ray links or subscription url here..."></textarea>
-        <button id="convert-btn">Convert</button>
+        <div>
+            <button id="convert-btn">Convert</button>
+            <button onclick="openSubscription()">Open Subscription</button>
+        </div>
         <textarea id="clash-config" wrap="off" placeholder="Converted Clash Config will be displayed here..." readonly></textarea>
     </body>
     <script>
@@ -56,11 +59,6 @@
             convertBtn.textContent = "Converting...";
             const apiUrl = getApiUrl();
             const v2rayLinksText = v2rayLinks.value;
-            if (v2rayLinksText.startsWith("http")) {
-                window.open(apiUrl + "?sub:" + v2rayLinksText);
-                convertBtn.textContent = "Convert";
-                return;
-            }
             fetch(apiUrl, {
                 method: "POST",
                 headers: {
@@ -80,5 +78,10 @@
                 convertBtn.textContent = "Convert";
             });
         });
+        function openSubscription() {
+            const apiUrl = getApiUrl();
+            const v2rayLinksText = v2rayLinks.value;
+            window.open(apiUrl + "?sub:" + v2rayLinksText);
+        }
     </script>
 </html>
