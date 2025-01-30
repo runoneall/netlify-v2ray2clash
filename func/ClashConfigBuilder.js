@@ -105,7 +105,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     type: 'ss',
                     server: proxy.server,
                     port: proxy.server_port,
-                    cipher: proxy.method,
+                    cipher: proxy.method ?? "",
                     password: proxy.password
                 };
             case 'vmess':
@@ -116,7 +116,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     port: proxy.server_port,
                     uuid: proxy.uuid,
                     alterId: proxy.alter_id,
-                    cipher: proxy.security,
+                    cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
                     servername: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
@@ -132,7 +132,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     server: proxy.server,
                     port: proxy.server_port,
                     uuid: proxy.uuid,
-                    cipher: proxy.security,
+                    cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
                     'client-fingerprint': proxy.tls.utls?.fingerprint,
                     servername: proxy.tls?.server_name || '',
@@ -172,7 +172,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     server: proxy.server,
                     port: proxy.server_port,
                     password: proxy.password,
-                    cipher: proxy.security,
+                    cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
                     'client-fingerprint': proxy.tls.utls?.fingerprint,
                     sni: proxy.tls?.server_name || '',
