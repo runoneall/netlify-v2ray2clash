@@ -13,7 +13,7 @@ export const UNIFIED_RULES = [
 	{
 		name: 'AI Services',
 		outbound: '💬 AI 服务',
-		site_rules: ['openai', 'anthropic','jetbrains-ai','perplexity'],
+		site_rules: ['openai', 'anthropic', 'jetbrains-ai', 'perplexity'],
 		ip_rules: []
 	},
 	{
@@ -76,43 +76,43 @@ export const UNIFIED_RULES = [
 		outbound: '🌐 社交媒体',
 		site_rules: ['facebook', 'instagram', 'twitter', 'tiktok', 'linkedin'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Streaming',
 		outbound: '🎬 流媒体',
-		site_rules: ['netflix', 'hulu', 'disney', 'hbo', 'amazon','bahamut'],
+		site_rules: ['netflix', 'hulu', 'disney', 'hbo', 'amazon', 'bahamut'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Gaming',
 		outbound: '🎮 游戏平台',
 		site_rules: ['steam', 'epicgames', 'ea', 'ubisoft', 'blizzard'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Education',
 		outbound: '📚 教育资源',
 		site_rules: ['coursera', 'edx', 'udemy', 'khanacademy', 'category-scholar-!cn'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Financial',
 		outbound: '💰 金融服务',
-		site_rules: ['paypal', 'visa', 'mastercard','stripe','wise'],
+		site_rules: ['paypal', 'visa', 'mastercard', 'stripe', 'wise'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Cloud Services',
 		outbound: '☁️ 云服务',
 		site_rules: ['aws', 'azure', 'digitalocean', 'heroku', 'dropbox'],
 		ip_rules: []
-	  },
-	  {
+	},
+	{
 		name: 'Non-China',
 		outbound: '🌐 非中国',
 		site_rules: ['geolocation-!cn'],
 		ip_rules: []
-	  }
+	}
 
 ];
 
@@ -120,8 +120,8 @@ export const PREDEFINED_RULE_SETS = {
 	minimal: ['Location:CN', 'Private', 'Non-China'],
 	balanced: ['Location:CN', 'Private', 'Non-China', 'Google', 'Youtube', 'AI Services', 'Telegram'],
 	comprehensive: UNIFIED_RULES.map(rule => rule.name)
-  };
-  
+};
+
 
 
 // Generate SITE_RULE_SETS and IP_RULE_SETS from UNIFIED_RULES
@@ -141,151 +141,151 @@ export const IP_RULE_SETS = UNIFIED_RULES.reduce((acc, rule) => {
 
 // Helper function to get outbounds based on selected rule names
 export function getOutbounds(selectedRuleNames) {
-    if (!selectedRuleNames || !Array.isArray(selectedRuleNames)) {
-        return []; // or handle this case as appropriate for your use case
-    }
-    return UNIFIED_RULES
-      .filter(rule => selectedRuleNames.includes(rule.name))
-      .map(rule => rule.outbound);
+	if (!selectedRuleNames || !Array.isArray(selectedRuleNames)) {
+		return []; // or handle this case as appropriate for your use case
+	}
+	return UNIFIED_RULES
+		.filter(rule => selectedRuleNames.includes(rule.name))
+		.map(rule => rule.outbound);
 }
 
 // Helper function to generate rules based on selected rule names
 export function generateRules(selectedRules = [], customRules = [], pin) {
 	if (typeof selectedRules === 'string' && PREDEFINED_RULE_SETS[selectedRules]) {
-	  selectedRules = PREDEFINED_RULE_SETS[selectedRules];
+		selectedRules = PREDEFINED_RULE_SETS[selectedRules];
 	}
-  
+
 	if (!selectedRules || selectedRules.length === 0) {
-	  selectedRules = PREDEFINED_RULE_SETS.minimal;
+		selectedRules = PREDEFINED_RULE_SETS.minimal;
 	}
-  
+
 	const rules = [];
-  
+
 	UNIFIED_RULES.forEach(rule => {
-	  if (selectedRules.includes(rule.name)) {
-		rules.push({
-		  site_rules: rule.site_rules,
-		  ip_rules: rule.ip_rules,
-		  domain_suffix: rule?.domain_suffix,
-		  ip_cidr: rule?.ip_cidr,
-		  outbound: rule.outbound
-		});
-	  }
+		if (selectedRules.includes(rule.name)) {
+			rules.push({
+				site_rules: rule.site_rules,
+				ip_rules: rule.ip_rules,
+				domain_suffix: rule?.domain_suffix,
+				ip_cidr: rule?.ip_cidr,
+				outbound: rule.outbound
+			});
+		}
 	});
-  
+
 	if (customRules && customRules.length > 0 && pin !== "true") {
 		customRules.forEach((rule) => {
-		  rules.push({
-			site_rules: rule.site.split(','),
-			ip_rules: rule.ip.split(','),
-			domain_suffix: rule.domain_suffix ? rule.domain_suffix.split(',') : [],
-			domain_keyword: rule.domain_keyword ? rule.domain_keyword.split(',') : [],
-			ip_cidr: rule.ip_cidr ? rule.ip_cidr.split(',') : [],
-			protocol: rule.protocol ? rule.protocol.split(',') : [],
-			outbound: rule.name
-		  });
+			rules.push({
+				site_rules: rule.site.split(','),
+				ip_rules: rule.ip.split(','),
+				domain_suffix: rule.domain_suffix ? rule.domain_suffix.split(',') : [],
+				domain_keyword: rule.domain_keyword ? rule.domain_keyword.split(',') : [],
+				ip_cidr: rule.ip_cidr ? rule.ip_cidr.split(',') : [],
+				protocol: rule.protocol ? rule.protocol.split(',') : [],
+				outbound: rule.name
+			});
 		});
 	}
 	else if (customRules && customRules.length > 0 && pin === "true") {
 		customRules.reverse();
 		customRules.forEach((rule) => {
 			rules.unshift({
-			  site_rules: rule.site.split(','),
-			  ip_rules: rule.ip.split(','),
-			  domain_suffix: rule.domain_suffix ? rule.domain_suffix.split(',') : [],
-			  domain_keyword: rule.domain_keyword ? rule.domain_keyword.split(',') : [],
-			  ip_cidr: rule.ip_cidr ? rule.ip_cidr.split(',') : [],
-			  protocol: rule.protocol ? rule.protocol.split(',') : [],
-			  outbound: rule.name
+				site_rules: rule.site.split(','),
+				ip_rules: rule.ip.split(','),
+				domain_suffix: rule.domain_suffix ? rule.domain_suffix.split(',') : [],
+				domain_keyword: rule.domain_keyword ? rule.domain_keyword.split(',') : [],
+				ip_cidr: rule.ip_cidr ? rule.ip_cidr.split(',') : [],
+				protocol: rule.protocol ? rule.protocol.split(',') : [],
+				outbound: rule.name
 			});
-		  });
+		});
 	}
-  
+
 	return rules;
-  }
+}
 
 
 export function generateRuleSets(selectedRules = [], customRules = []) {
-  if (typeof selectedRules === 'string' && PREDEFINED_RULE_SETS[selectedRules]) {
-    selectedRules = PREDEFINED_RULE_SETS[selectedRules];
-  }
-  
-  if (!selectedRules || selectedRules.length === 0) {
-    selectedRules = PREDEFINED_RULE_SETS.minimal;
-  }
-
-  const selectedRulesSet = new Set(selectedRules);
-
-  const siteRuleSets = new Set();
-  const ipRuleSets = new Set();
-
-  const ruleSets = [];
-
-  UNIFIED_RULES.forEach(rule => {
-    if (selectedRulesSet.has(rule.name)) {
-      rule.site_rules.forEach(siteRule => siteRuleSets.add(siteRule));
-      rule.ip_rules.forEach(ipRule => ipRuleSets.add(ipRule));
-    }
-  });
-  
-
-
-  const site_rule_sets = Array.from(siteRuleSets).map(rule => ({
-    tag: rule,
-    type: 'remote',
-    format: 'binary',
-    url: `${SITE_RULE_SET_BASE_URL}${SITE_RULE_SETS[rule]}`,
-    download_detour: '⚡ 自动选择'
-  }));
-
-  const ip_rule_sets = Array.from(ipRuleSets).map(rule => ({
-    tag: `${rule}-ip`,
-    type: 'remote',
-    format: 'binary',
-    url: `${IP_RULE_SET_BASE_URL}${IP_RULE_SETS[rule]}`,
-    	download_detour: '⚡ 自动选择'
-  }));
-
-  if(!selectedRules.includes('Non-China')){
-	site_rule_sets.push({
-		tag: 'geolocation-!cn',
-		type: 'remote',
-		format: 'binary',
-		url: `${SITE_RULE_SET_BASE_URL}geosite-geolocation-!cn.srs`,
-		download_detour: '⚡ 自动选择'
-	});
-  }
-
-  if(customRules){
-	customRules.forEach(rule => {
-		if(rule.site!=''){
-			rule.site.split(',').forEach(site => {
-				site_rule_sets.push({
-					tag: site.trim(),
-					type: 'remote',
-					format: 'binary',
-					url: `${SITE_RULE_SET_BASE_URL}geosite-${site.trim()}.srs`,
-					download_detour: '⚡ 自动选择'
-				});
-			});
-		}
-		if(rule.ip!=''){
-			rule.ip.split(',').forEach(ip => {
-				ip_rule_sets.push({
-					tag: `${ip.trim()}-ip`,
-					type: 'remote',
-					format: 'binary',
-					url: `${IP_RULE_SET_BASE_URL}geoip-${ip.trim()}.srs`,
-					download_detour: '⚡ 自动选择'
-				});
-			});
-		}
-	});
+	if (typeof selectedRules === 'string' && PREDEFINED_RULE_SETS[selectedRules]) {
+		selectedRules = PREDEFINED_RULE_SETS[selectedRules];
 	}
 
-  ruleSets.push(...site_rule_sets, ...ip_rule_sets);
+	if (!selectedRules || selectedRules.length === 0) {
+		selectedRules = PREDEFINED_RULE_SETS.minimal;
+	}
 
-  return { site_rule_sets, ip_rule_sets };
+	const selectedRulesSet = new Set(selectedRules);
+
+	const siteRuleSets = new Set();
+	const ipRuleSets = new Set();
+
+	const ruleSets = [];
+
+	UNIFIED_RULES.forEach(rule => {
+		if (selectedRulesSet.has(rule.name)) {
+			rule.site_rules.forEach(siteRule => siteRuleSets.add(siteRule));
+			rule.ip_rules.forEach(ipRule => ipRuleSets.add(ipRule));
+		}
+	});
+
+
+
+	const site_rule_sets = Array.from(siteRuleSets).map(rule => ({
+		tag: rule,
+		type: 'remote',
+		format: 'binary',
+		url: `${SITE_RULE_SET_BASE_URL}${SITE_RULE_SETS[rule]}`,
+		download_detour: '⚡ 自动选择'
+	}));
+
+	const ip_rule_sets = Array.from(ipRuleSets).map(rule => ({
+		tag: `${rule}-ip`,
+		type: 'remote',
+		format: 'binary',
+		url: `${IP_RULE_SET_BASE_URL}${IP_RULE_SETS[rule]}`,
+		download_detour: '⚡ 自动选择'
+	}));
+
+	if (!selectedRules.includes('Non-China')) {
+		site_rule_sets.push({
+			tag: 'geolocation-!cn',
+			type: 'remote',
+			format: 'binary',
+			url: `${SITE_RULE_SET_BASE_URL}geosite-geolocation-!cn.srs`,
+			download_detour: '⚡ 自动选择'
+		});
+	}
+
+	if (customRules) {
+		customRules.forEach(rule => {
+			if (rule.site != '') {
+				rule.site.split(',').forEach(site => {
+					site_rule_sets.push({
+						tag: site.trim(),
+						type: 'remote',
+						format: 'binary',
+						url: `${SITE_RULE_SET_BASE_URL}geosite-${site.trim()}.srs`,
+						download_detour: '⚡ 自动选择'
+					});
+				});
+			}
+			if (rule.ip != '') {
+				rule.ip.split(',').forEach(ip => {
+					ip_rule_sets.push({
+						tag: `${ip.trim()}-ip`,
+						type: 'remote',
+						format: 'binary',
+						url: `${IP_RULE_SET_BASE_URL}geoip-${ip.trim()}.srs`,
+						download_detour: '⚡ 自动选择'
+					});
+				});
+			}
+		});
+	}
+
+	ruleSets.push(...site_rule_sets, ...ip_rule_sets);
+
+	return { site_rule_sets, ip_rule_sets };
 }
 
 export const CLASH_CONFIG = {

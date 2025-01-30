@@ -26,14 +26,14 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
         let outbounds;
         if (typeof this.selectedRules === 'string' && PREDEFINED_RULE_SETS[this.selectedRules]) {
             outbounds = getOutbounds(PREDEFINED_RULE_SETS[this.selectedRules]);
-        } else if(this.selectedRules && Object.keys(this.selectedRules).length > 0) {
+        } else if (this.selectedRules && Object.keys(this.selectedRules).length > 0) {
             outbounds = getOutbounds(this.selectedRules);
         } else {
             outbounds = getOutbounds(PREDEFINED_RULE_SETS.minimal);
         }
 
         const proxyList = this.config.proxies.map(proxy => proxy.name);
-        
+
         this.config['proxy-groups'].push({
             name: '⚡ 自动选择',
             type: 'url-test',
@@ -45,7 +45,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
 
         proxyList.unshift('DIRECT', 'REJECT', '⚡ 自动选择');
         outbounds.unshift('🚀 节点选择');
-        
+
         outbounds.forEach(outbound => {
             if (outbound !== '🚀 节点选择') {
                 this.config['proxy-groups'].push({
@@ -97,7 +97,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
     }
 
     convertToClashProxy(proxy) {
-        switch(proxy.type) {
+        switch (proxy.type) {
             case 'shadowsocks':
                 return {
                     name: proxy.tag,
@@ -139,7 +139,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     'ws-opts': proxy.transport?.type === 'ws' ? {
                         path: proxy.transport.path,
                         headers: proxy.transport.headers
-                    }: undefined,
+                    } : undefined,
                     'reality-opts': proxy.tls.reality?.enabled ? {
                         'public-key': proxy.tls.reality.public_key,
                         'short-id': proxy.tls.reality.short_id,
@@ -148,7 +148,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                         'grpc-mode': 'gun',
                         'grpc-service-name': proxy.transport.service_name,
                     } : undefined,
-                    tfo : proxy.tcp_fast_open,
+                    tfo: proxy.tcp_fast_open,
                     'skip-cert-verify': proxy.tls.insecure,
                     'flow': proxy.flow ?? undefined,
                 };
@@ -164,8 +164,8 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     auth: proxy.password,
                     'skip-cert-verify': proxy.tls.insecure,
                 };
-			case 'trojan':
-				return {
+            case 'trojan':
+                return {
                     name: proxy.tag,
                     type: proxy.type,
                     server: proxy.server,
@@ -179,7 +179,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     'ws-opts': proxy.transport?.type === 'ws' ? {
                         path: proxy.transport.path,
                         headers: proxy.transport.headers
-                    }: undefined,
+                    } : undefined,
                     'reality-opts': proxy.tls.reality?.enabled ? {
                         'public-key': proxy.tls.reality.public_key,
                         'short-id': proxy.tls.reality.short_id,
@@ -188,10 +188,10 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                         'grpc-mode': 'gun',
                         'grpc-service-name': proxy.transport.service_name,
                     } : undefined,
-                    tfo : proxy.tcp_fast_open,
+                    tfo: proxy.tcp_fast_open,
                     'skip-cert-verify': proxy.tls.insecure,
                     'flow': proxy.flow ?? undefined,
-				}
+                }
             case 'tuic':
                 return {
                     name: proxy.tag,
