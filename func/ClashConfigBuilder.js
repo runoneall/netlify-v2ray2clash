@@ -97,6 +97,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
     }
 
     convertToClashProxy(proxy) {
+        console.log(proxy);
         switch (proxy.type) {
             case 'shadowsocks':
                 return {
@@ -122,7 +123,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     'ws-opts': proxy.transport?.type === 'ws' ? {
                         path: proxy.transport.path,
                         headers: proxy.transport.headers
-                    } : undefined
+                    } : ""
                 };
             case 'vless':
                 return {
@@ -139,18 +140,18 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     'ws-opts': proxy.transport?.type === 'ws' ? {
                         path: proxy.transport.path,
                         headers: proxy.transport.headers
-                    } : undefined,
+                    } : "",
                     'reality-opts': proxy.tls.reality?.enabled ? {
                         'public-key': proxy.tls.reality.public_key,
                         'short-id': proxy.tls.reality.short_id,
-                    } : undefined,
+                    } : "",
                     'grpc-opts': proxy.transport?.type === 'grpc' ? {
                         'grpc-mode': 'gun',
                         'grpc-service-name': proxy.transport.service_name,
-                    } : undefined,
+                    } : "",
                     tfo: proxy.tcp_fast_open,
                     'skip-cert-verify': proxy.tls.insecure,
-                    'flow': proxy.flow ?? undefined,
+                    'flow': proxy.flow ?? "",
                 };
             case 'hysteria2':
                 return {
@@ -179,18 +180,18 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     'ws-opts': proxy.transport?.type === 'ws' ? {
                         path: proxy.transport.path,
                         headers: proxy.transport.headers
-                    } : undefined,
+                    } : "",
                     'reality-opts': proxy.tls.reality?.enabled ? {
                         'public-key': proxy.tls.reality.public_key,
                         'short-id': proxy.tls.reality.short_id,
-                    } : undefined,
+                    } : "",
                     'grpc-opts': proxy.transport?.type === 'grpc' ? {
                         'grpc-mode': 'gun',
                         'grpc-service-name': proxy.transport.service_name,
-                    } : undefined,
+                    } : "",
                     tfo: proxy.tcp_fast_open,
                     'skip-cert-verify': proxy.tls.insecure,
-                    'flow': proxy.flow ?? undefined,
+                    'flow': proxy.flow ?? "",
                 }
             case 'tuic':
                 return {

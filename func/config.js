@@ -1,5 +1,5 @@
-export const SITE_RULE_SET_BASE_URL = 'https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geosite/';
-export const IP_RULE_SET_BASE_URL = 'https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geoip/';
+export const SITE_RULE_SET_BASE_URL = 'https://gh.sageer.me/https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geosite/';
+export const IP_RULE_SET_BASE_URL = 'https://gh.sageer.me/https://raw.githubusercontent.com/lyc8503/sing-box-rules/refs/heads/rule-set-geoip/';
 // Custom rules
 export const CUSTOM_RULES = [];
 // Unified rule structure
@@ -287,6 +287,125 @@ export function generateRuleSets(selectedRules = [], customRules = []) {
 
 	return { site_rule_sets, ip_rule_sets };
 }
+
+// Singbox configuration
+export const SING_BOX_CONFIG = {
+	dns: {
+		servers: [
+			{
+				tag: "dns_proxy",
+				address: "tcp://1.1.1.1",
+				address_resolver: "dns_resolver",
+				strategy: "ipv4_only",
+				detour: "🚀 节点选择"
+			},
+			{
+				tag: "dns_direct",
+				address: "https://dns.alidns.com/dns-query",
+				address_resolver: "dns_resolver",
+				strategy: "ipv4_only",
+				detour: "DIRECT"
+			},
+			{
+				tag: "dns_resolver",
+				address: "223.5.5.5",
+				detour: "DIRECT"
+			},
+			{
+				tag: "dns_success",
+				address: "rcode://success"
+			},
+			{
+				tag: "dns_refused",
+				address: "rcode://refused"
+			},
+			{
+				tag: "dns_fakeip",
+				address: "fakeip"
+			}
+		],
+		rules: [
+			{
+				outbound: "any",
+				server: "dns_resolver"
+			},
+			{
+				rule_set: "geolocation-!cn",
+				query_type: [
+					"A",
+					"AAAA"
+				],
+				server: "dns_fakeip"
+			},
+			{
+				rule_set: "geolocation-!cn",
+				query_type: [
+					"CNAME"
+				],
+				server: "dns_proxy"
+			},
+			{
+				query_type: [
+					"A",
+					"AAAA",
+					"CNAME"
+				],
+				invert: true,
+				server: "dns_refused",
+				disable_cache: true
+			}
+		],
+		final: "dns_direct",
+		independent_cache: true,
+		fakeip: {
+			enabled: true,
+			inet4_range: "198.18.0.0/15",
+			inet6_range: "fc00::/18"
+		}
+	},
+	ntp: {
+		enabled: true,
+		server: 'time.apple.com',
+		server_port: 123,
+		interval: '30m',
+		detour: 'DIRECT'
+	},
+	inbounds: [
+		{ type: 'mixed', tag: 'mixed-in', listen: '0.0.0.0', listen_port: 2080 },
+		{ type: 'tun', tag: 'tun-in', address: '172.19.0.1/30', auto_route: true, strict_route: true, stack: 'mixed', sniff: true }
+	],
+	outbounds: [
+		{ type: 'direct', tag: 'DIRECT' },
+		{ type: 'block', tag: 'REJECT' },
+		{ type: 'dns', tag: 'dns-out' }
+	],
+	route: {
+		"rule_set": [
+			{
+				"tag": "geosite-geolocation-!cn",
+				"type": "local",
+				"format": "binary",
+				"path": "geosite-geolocation-!cn.srs"
+			}
+		],
+		rules: [
+			{
+				"outbound": "any",
+				"server": "dns_resolver"
+			}
+		]
+	},
+	experimental: {
+		cache_file: {
+			enabled: true,
+			store_fakeip: true
+		},
+		clash_api: {
+			external_controller: '127.0.0.1:9090',
+			external_ui: 'dashboard'
+		}
+	}
+};
 
 export const CLASH_CONFIG = {
 	port: 7890,
