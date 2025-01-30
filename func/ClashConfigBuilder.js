@@ -97,7 +97,6 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
     }
 
     convertToClashProxy(proxy) {
-        console.log(proxy);
         switch (proxy.type) {
             case 'shadowsocks':
                 return {
@@ -134,7 +133,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     uuid: proxy.uuid,
                     cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
-                    'client-fingerprint': proxy.tls.utls?.fingerprint,
+                    'client-fingerprint': proxy.tls.utls?.fingerprint ?? "",
                     servername: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
                     'ws-opts': proxy.transport?.type === 'ws' ? {
@@ -150,7 +149,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                         'grpc-service-name': proxy.transport.service_name,
                     } : "",
                     tfo: proxy.tcp_fast_open,
-                    'skip-cert-verify': proxy.tls.insecure,
+                    'skip-cert-verify': proxy.tls.insecure ?? "",
                     'flow': proxy.flow ?? "",
                 };
             case 'hysteria2':
@@ -159,11 +158,11 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     type: proxy.type,
                     server: proxy.server,
                     port: proxy.server_port,
-                    obfs: proxy.obfs.type,
-                    'obfs-password': proxy.obfs.password,
+                    obfs: proxy.obfs.type ?? "",
+                    'obfs-password': proxy.obfs.password ?? "",
                     password: proxy.password,
                     auth: proxy.password,
-                    'skip-cert-verify': proxy.tls.insecure,
+                    'skip-cert-verify': proxy.tls.insecure ?? "",
                 };
             case 'trojan':
                 return {
@@ -174,7 +173,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     password: proxy.password,
                     cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
-                    'client-fingerprint': proxy.tls.utls?.fingerprint,
+                    'client-fingerprint': proxy.tls.utls?.fingerprint ?? "",
                     sni: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
                     'ws-opts': proxy.transport?.type === 'ws' ? {
@@ -190,7 +189,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                         'grpc-service-name': proxy.transport.service_name,
                     } : "",
                     tfo: proxy.tcp_fast_open,
-                    'skip-cert-verify': proxy.tls.insecure,
+                    'skip-cert-verify': proxy.tls.insecure ?? "",
                     'flow': proxy.flow ?? "",
                 }
             case 'tuic':
@@ -202,7 +201,7 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     uuid: proxy.uuid,
                     password: proxy.password,
                     'congestion-controller': proxy.congestion,
-                    'skip-cert-verify': proxy.tls.insecure,
+                    'skip-cert-verify': proxy.tls.insecure ?? "",
                     'disable-sni': true,
                     'alpn': proxy.tls.alpn,
                     'sni': proxy.tls.server_name,

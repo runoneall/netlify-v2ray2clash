@@ -25,7 +25,8 @@ export default async (request, context) => {
     let baseConfig;
     let configBuilder;
     configBuilder = new ClashConfigBuilder(inputString, selectedRules, customRules, pin, baseConfig);
-    const config = await configBuilder.build();
+    let config = await configBuilder.build();
+    config = config.split('\n').filter(line => !line.includes(': \'\'')).join('\n');
     return new Response(config, {
         headers: { 'Content-Type': 'text/yaml; charset=utf-8' },
     });
