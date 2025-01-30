@@ -2,8 +2,3 @@
   command = "npm run build"
   functions = "func"
   publish = "public"
-
-[[redirects]]
-  from = "/"
-  to = "/index.html"
-  status = 200
