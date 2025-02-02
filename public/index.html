@@ -80,7 +80,7 @@
         });
         function openSubscription() {
             const apiUrl = getApiUrl();
-            const v2rayLinksText = v2rayLinks.value;
+            const v2rayLinksText = v2rayLinks.value.replaceAll('\n', '|');
             window.open(apiUrl + "?sub:" + v2rayLinksText);
         }
     </script>

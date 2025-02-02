@@ -2,13 +2,14 @@ import { ClashConfigBuilder } from './ClashConfigBuilder.js';
 import { PREDEFINED_RULE_SETS } from './config.js';
 
 export default async (request, context) => {
-    let inputString;
+    let inputString = '';
     if (request.method === 'GET') {
-        inputString = request.url.slice(request.url.indexOf('?sub:') + 5);
+        inputString = request.url.slice(request.url.indexOf('?sub:') + 5).replaceAll('|', '\n');
     }
     if (request.method === 'POST') {
         inputString = await request.text();
     }
+    console.log(inputString);
     let selectedRules = "%22comprehensive%22";
     let customRules = "%5B%5D";
     let pin = "false";
