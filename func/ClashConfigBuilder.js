@@ -100,111 +100,111 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
         switch (proxy.type) {
             case 'shadowsocks':
                 return {
-                    name: proxy.tag,
+                    name: proxy.tag ?? "",
                     type: 'ss',
-                    server: proxy.server,
-                    port: proxy.server_port,
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
                     cipher: proxy.method ?? "",
-                    password: proxy.password
+                    password: proxy.password ?? ""
                 };
             case 'vmess':
                 return {
-                    name: proxy.tag,
-                    type: proxy.type,
-                    server: proxy.server,
-                    port: proxy.server_port,
-                    uuid: proxy.uuid,
-                    alterId: proxy.alter_id,
+                    name: proxy.tag ?? "",
+                    type: proxy.type ?? "",
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
+                    uuid: proxy.uuid ?? "",
+                    alterId: proxy.alter_id ?? "",
                     cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
                     servername: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
                     'ws-opts': proxy.transport?.type === 'ws' ? {
-                        path: proxy.transport.path,
-                        headers: proxy.transport.headers
+                        path: proxy.transport.path ?? "",
+                        headers: proxy.transport.headers ?? ""
                     } : ""
                 };
             case 'vless':
                 return {
-                    name: proxy.tag,
-                    type: proxy.type,
-                    server: proxy.server,
-                    port: proxy.server_port,
-                    uuid: proxy.uuid,
+                    name: proxy.tag ?? "",
+                    type: proxy.type ?? "",
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
+                    uuid: proxy.uuid ?? "",
                     cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
-                    'client-fingerprint': proxy.tls.utls?.fingerprint ?? "",
+                    'client-fingerprint': proxy.tls.utls?.fingerprint || "",
                     servername: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
                     'ws-opts': proxy.transport?.type === 'ws' ? {
-                        path: proxy.transport.path,
-                        headers: proxy.transport.headers
+                        path: proxy.transport.path ?? "",
+                        headers: proxy.transport.headers ?? ""
                     } : "",
                     'reality-opts': proxy.tls.reality?.enabled ? {
-                        'public-key': proxy.tls.reality.public_key,
-                        'short-id': proxy.tls.reality.short_id,
+                        'public-key': proxy.tls.reality.public_key ?? "",
+                        'short-id': proxy.tls.reality.short_id ?? "",
                     } : "",
                     'grpc-opts': proxy.transport?.type === 'grpc' ? {
                         'grpc-mode': 'gun',
-                        'grpc-service-name': proxy.transport.service_name,
+                        'grpc-service-name': proxy.transport.service_name ?? "",
                     } : "",
-                    tfo: proxy.tcp_fast_open,
+                    tfo: proxy.tcp_fast_open ?? "",
                     'skip-cert-verify': proxy.tls.insecure ?? "",
                     'flow': proxy.flow ?? "",
                 };
             case 'hysteria2':
                 return {
-                    name: proxy.tag,
-                    type: proxy.type,
-                    server: proxy.server,
-                    port: proxy.server_port,
+                    name: proxy.tag ?? "",
+                    type: proxy.type ?? "",
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
                     obfs: proxy.obfs.type ?? "",
                     'obfs-password': proxy.obfs.password ?? "",
-                    password: proxy.password,
-                    auth: proxy.password,
+                    password: proxy.password ?? "",
+                    auth: proxy.password ?? "",
                     'skip-cert-verify': proxy.tls.insecure ?? "",
                 };
             case 'trojan':
                 return {
-                    name: proxy.tag,
-                    type: proxy.type,
-                    server: proxy.server,
-                    port: proxy.server_port,
-                    password: proxy.password,
+                    name: proxy.tag ?? "",
+                    type: proxy.type ?? "",
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
+                    password: proxy.password ?? "",
                     cipher: proxy.security ?? "",
                     tls: proxy.tls?.enabled || false,
-                    'client-fingerprint': proxy.tls.utls?.fingerprint ?? "",
+                    'client-fingerprint': proxy.tls.utls?.fingerprint || "",
                     sni: proxy.tls?.server_name || '',
                     network: proxy.transport?.type || 'tcp',
                     'ws-opts': proxy.transport?.type === 'ws' ? {
-                        path: proxy.transport.path,
-                        headers: proxy.transport.headers
+                        path: proxy.transport.path ?? "",
+                        headers: proxy.transport.headers ?? ""
                     } : "",
                     'reality-opts': proxy.tls.reality?.enabled ? {
-                        'public-key': proxy.tls.reality.public_key,
-                        'short-id': proxy.tls.reality.short_id,
+                        'public-key': proxy.tls.reality.public_key ?? "",
+                        'short-id': proxy.tls.reality.short_id ?? "",
                     } : "",
                     'grpc-opts': proxy.transport?.type === 'grpc' ? {
                         'grpc-mode': 'gun',
-                        'grpc-service-name': proxy.transport.service_name,
+                        'grpc-service-name': proxy.transport.service_name ?? "",
                     } : "",
-                    tfo: proxy.tcp_fast_open,
+                    tfo: proxy.tcp_fast_open ?? "",
                     'skip-cert-verify': proxy.tls.insecure ?? "",
                     'flow': proxy.flow ?? "",
                 }
             case 'tuic':
                 return {
-                    name: proxy.tag,
-                    type: proxy.type,
-                    server: proxy.server,
-                    port: proxy.server_port,
-                    uuid: proxy.uuid,
-                    password: proxy.password,
-                    'congestion-controller': proxy.congestion,
+                    name: proxy.tag ?? "",
+                    type: proxy.type ?? "",
+                    server: proxy.server ?? "",
+                    port: proxy.server_port ?? "",
+                    uuid: proxy.uuid ?? "",
+                    password: proxy.password ?? "",
+                    'congestion-controller': proxy.congestion ?? "",
                     'skip-cert-verify': proxy.tls.insecure ?? "",
                     'disable-sni': true,
-                    'alpn': proxy.tls.alpn,
-                    'sni': proxy.tls.server_name,
+                    'alpn': proxy.tls.alpn ?? "",
+                    'sni': proxy.tls.server_name ?? "",
                     'udp-relay-mode': 'native',
                 };
             default:
